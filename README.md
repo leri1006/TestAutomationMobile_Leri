@@ -2,7 +2,7 @@
 Test Mobile Automation for Todoist Application
 
 Clone the repository using SSH. Before running the test, ensure you have the following installed: 
-- Visual Studio Code as IDE
+- Visual Studio Code as IDE (set up extension WebDriverIO)
 - [Node.js](https://nodejs.org/)
 - [Appium](http://appium.io/) 
 - [Java] (https://www.oracle.com/id/java/technologies/downloads/)
