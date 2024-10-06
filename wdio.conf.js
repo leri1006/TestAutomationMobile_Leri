@@ -23,7 +23,7 @@ exports.config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        'TodoistAutomation/CreateNewProjectViaAPI.js'
+        'TodoistAutomation/MobileAutomationTask.js'
         //'TodoistAutomation/LoginAndVerifyProject.js'
     ],
     // Patterns to exclude.
