@@ -15,7 +15,8 @@ const restClient = new RestClient('https://api.todoist.com/rest/v2', apiToken);
 
 describe('Todoist Mobile Automation', () => {
 
-    let projectName
+    let projectName;
+    let newProjectisDisplayed;
     it('should create a project via API and verify the project ID exists', async () => {
        //To generate a project name
         projectName = `Automation Test Project - ${generateRandomString(8)}`;
@@ -59,7 +60,8 @@ describe('Todoist Mobile Automation', () => {
         await driver.pause(5000); 
         console.log('Paused for 5 seconds to allow login to complete.');
 
-        await driver.execute('mobile: hideKeyboard'); //To hide the keyboard emulator after using it to input value
+        //To hide the keyboard emulator after using it to input value
+        await driver.execute('mobile: hideKeyboard'); 
         console.log('Keyboard hidden.');
 
         //Verify "Today" text is displayed
@@ -74,10 +76,50 @@ describe('Todoist Mobile Automation', () => {
         console.log('Clicked on the menu button.');
 
         //Verify the new project is displayed
-        const newProjectisDisplayed = await driver.$(`android=new UiSelector().text("${projectName}")`);
+        newProjectisDisplayed = await driver.$(`android=new UiSelector().text("${projectName}")`);
         await newProjectisDisplayed.waitForDisplayed({ timeout: 5000 });
         console.log(`New project "${projectName}" is displayed.`);
-        
+    });
+
+    it ('create a new task in test project and verify it via API', async () => {
+       //If project is found then click the project to access it
+        if (await newProjectisDisplayed.isDisplayed()){
+            await newProjectisDisplayed.click();
+            console.log(`Clicked on the project "${projectName}".`);
+
+            //Click add new task button
+            const addTaskButton = await driver.$('id=com.todoist:id/fab');
+            await addTaskButton.click();
+            console.log('Clicked on the add new task button.');
+
+            //Add title task
+            const addTitleTask = await driver.$('id=android:id/message');
+            await addTitleTask.setValue('Automation Task');
+            console.log('Entered task name.');
+
+            //Add description task
+            const addDescriptionTask = await driver.$('id=com.todoist:id/description');
+            await addDescriptionTask.setValue('Just testing for automation.');
+            console.log('Entered decription task.');
+
+            //Click submit new task
+            const submitButton = await driver.$('id=android:id/button1'); 
+            await submitButton.click();
+            console.log('Submitted the task.');
+
+            //To hide the keyboard emulator after using it to input value
+            await driver.execute('mobile: hideKeyboard'); 
+            console.log('Keyboard hidden.');
+
+             //Verify the new project is displayed
+            newTaskisDisplayed = await driver.$(`android=new UiSelector().text("Automation Task")`);
+            await newTaskisDisplayed.waitForDisplayed({ timeout: 5000 });
+            console.log(`New task is displayed.`);
+
+
+        }else {
+            throw new Error(`Project "${projectName}" is not found.`);
+        }
     });
 }); 
 
