@@ -4,7 +4,8 @@ const generateRandomString = require('./function');
 require('dotenv').config();
 
 const apiToken =process.env.TODOIST_API_TOKEN; 
-console.log('Using API token:', apiToken);
+const emailUser =process.env.TODOIST_EMAIL;
+const passwordUser =process.env.TODOIST_PASSWORD; 
 
 let driver;
 before(async () => {
@@ -39,7 +40,7 @@ describe('Todoist Mobile Automation', () => {
 
         //Enter email
         const emailInput = await driver.$('id=com.todoist:id/email_exists_input');
-        await emailInput.setValue('lookinggoodthrift@gmail.com');
+        await emailInput.setValue(emailUser);
         console.log('Entered email address.');
 
          //Click continue button
@@ -49,7 +50,7 @@ describe('Todoist Mobile Automation', () => {
         
         //Enter password
         const passwordInput = await driver.$('id=com.todoist:id/log_in_password');
-        await passwordInput.setValue('Orange@2024');
+        await passwordInput.setValue(passwordUser);
         console.log('Entered password.');
         
          //Click login button
@@ -107,9 +108,9 @@ describe('Todoist Mobile Automation', () => {
             await submitButton.click();
             console.log('Submitted the task.');
 
-            //To hide keyboard and get back to screen
-            await driver.back();
-            console.log('Get back to screen.');
+            //To hide the keyboard emulator after using it to input value
+            await driver.execute('mobile: hideKeyboard'); 
+            console.log('Keyboard hidden.');
 
              //Verify the new project is displayed
             newTaskisDisplayed = await driver.$(`android=new UiSelector().text("Automation Task")`);
