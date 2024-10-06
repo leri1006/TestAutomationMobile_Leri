@@ -107,15 +107,19 @@ describe('Todoist Mobile Automation', () => {
             await submitButton.click();
             console.log('Submitted the task.');
 
-            //To hide the keyboard emulator after using it to input value
-            await driver.execute('mobile: hideKeyboard'); 
-            console.log('Keyboard hidden.');
+            //To hide keyboard and get back to screen
+            await driver.back();
+            console.log('Get back to screen.');
 
              //Verify the new project is displayed
             newTaskisDisplayed = await driver.$(`android=new UiSelector().text("Automation Task")`);
             await newTaskisDisplayed.waitForDisplayed({ timeout: 5000 });
             console.log(`New task is displayed.`);
 
+            //Verify task via API
+            const tasks = await restClient.getTasks();
+            const taskFound = tasks.some(task => task.content === 'Automation Task');
+            console.log('Task is found via API:', taskFound);
 
         }else {
             throw new Error(`Project "${projectName}" is not found.`);

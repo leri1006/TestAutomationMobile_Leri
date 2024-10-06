@@ -1,3 +1,4 @@
+const { timeStamp } = require('console');
 const path = require('path');
 exports.config = {
     //
@@ -24,7 +25,6 @@ exports.config = {
     //
     specs: [
         'TodoistAutomation/MobileAutomationTask.js'
-        //'TodoistAutomation/LoginAndVerifyProject.js'
     ],
     // Patterns to exclude.
     exclude: [
@@ -69,7 +69,7 @@ exports.config = {
     // Define all options that are relevant for the WebdriverIO instance here
     //
     // Level of logging verbosity: trace | debug | info | warn | error | silent
-    logLevel: 'info',
+    logLevel: 'debug',
     //
     // Set specific log levels per logger
     // loggers:
@@ -119,6 +119,25 @@ exports.config = {
     // before running any tests.
     services: ['Appium'],
     framework: 'mocha',
+
+    reporters: [
+        'spec',
+        ['mochawesome', {
+            outputDir: './reports',
+            outputFileFormat: function (opts) { 
+                return `results-${opts.cid}.${opts.capabilities}.json`; 
+            },
+            reportFilename: 'report',
+            html: true,
+            json: true,
+            overwrite: true,
+        }]
+      ],
+
+    mochaOpts: {
+        ui: 'bdd',
+        timeout: 60000
+    },
     
     //
     // The number of times to retry the entire specfile when it fails as a whole
@@ -137,10 +156,6 @@ exports.config = {
 
     // Options to be passed to Mocha.
     // See the full list at http://mochajs.org/
-    mochaOpts: {
-        ui: 'bdd',
-        timeout: 60000
-    },
 
     //
     // =====

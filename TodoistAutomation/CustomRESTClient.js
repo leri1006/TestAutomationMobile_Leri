@@ -17,6 +17,11 @@ class RestClient {
         const response = await axios.post(`${this.baseUrl}/projects`, data, { headers: this.headers });
         return response.data;
     }
+
+    async getTasks() {
+        const response = await axios.get(`${this.baseUrl}/tasks`, { headers: this.headers });
+        return response.data;
+    }
 }
 
 module.exports = RestClient;
