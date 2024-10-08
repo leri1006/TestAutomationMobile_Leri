@@ -9,7 +9,7 @@ Clone the repository. Before running the test, ensure you have the following ins
 - Android Studio (Android SDK and Emulator) --> can set your own emulator in wdio.conf.js file (no need to setup appium:app)
 - all dependencies are set in this project already in node_modules.
 - If user don't download the node_modules, can run "npm install" in the terminal to ensure all dependencies are downloaded.
-- token, email, and password are filled in .env file
+- you need to fill .env file
 
 To run the test:
 - Ensure Appium is set up and running, Android Emulator is setup and running
